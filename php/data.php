@@ -1,6 +1,6 @@
 <?php
     while($row = mysqli_fetch_assoc($query)){
-        $sql2 = "SELECT * FROM messages WHERE (incoming_msg_id = {$row['unique_id']}
+        $sql2 = "SELECT * FROM IA_messages WHERE (incoming_msg_id = {$row['unique_id']}
                 OR outgoing_msg_id = {$row['unique_id']}) AND (outgoing_msg_id = {$outgoing_id} 
                 OR incoming_msg_id = {$outgoing_id}) ORDER BY msg_id DESC LIMIT 1";
         $query2 = mysqli_query($conn, $sql2);
@@ -12,18 +12,24 @@
         }else{
             $you = "";
         }
-        ($row['status'] == "Offline now") ? $offline = "offline" : $offline = "";
+        // ($row['status'] == "Offline now") ? $offline = "offline" : $offline = "";
+        ($row['statut']) ? $offline = "offline" : $offline = "";
         ($outgoing_id == $row['unique_id']) ? $hid_me = "hide" : $hid_me = "";
 
+        $img = $row['photo_profil'] ? $_SESSION['app_baseURL'].$row['photo_profil'] : 'php/images/user.png';
+        // print_r("\n".$img);
         $output .= '<a href="chat.php?user_id='. $row['unique_id'] .'">
                     <div class="content">
-                    <img src="php/images/'. $row['img'] .'" alt="">
+                    <img src="'. $img . '" alt="">
                     <div class="details">
-                        <span>'. $row['fname']. " " . $row['lname'] .'</span>
+                        <span>'. $row['prenom']. " " . $row['nom'] .'</span>
                         <p>'. $you . $msg .'</p>
                     </div>
                     </div>
                     <div class="status-dot '. $offline .'"><i class="fas fa-circle"></i></div>
                 </a>';
+        // print_r("\n".$output);
+        // exit;
     }
+    // <img src="php/images/'. $row['img'] .'" alt="">
 ?>

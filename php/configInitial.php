@@ -1,7 +1,7 @@
 <?php
   $hostname = "localhost";
   $username = "root";
-  $password = "";
+  $password = "root";
   $dbname = "inchassurdb";
 
   $conn = mysqli_connect($hostname, $username, $password, $dbname);

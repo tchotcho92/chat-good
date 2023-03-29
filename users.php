@@ -12,15 +12,17 @@
       <header>
         <div class="content">
           <?php 
-            $sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = {$_SESSION['unique_id']}");
-            if(mysqli_num_rows($sql) > 0){
+            $sql = mysqli_query($conn, "SELECT * FROM IA_utilisateurs WHERE unique_id = {$_SESSION['unique_id']}");
+            // var_dump($sql);
+            // echo mysqli_num_rows($sql);
+            // if(mysqli_num_rows($sql)){
               $row = mysqli_fetch_assoc($sql);
-            }
+            // }
           ?>
-          <img src="php/images/<?php echo $row['img']; ?>" alt="">
+          <img src="<?php echo $_SESSION['app_baseURL'].$row['photo_profil']; ?>" alt="">
           <div class="details">
-            <span><?php echo $row['fname']. " " . $row['lname'] ?></span>
-            <p><?php echo $row['status']; ?></p>
+            <span><?php echo $row['prenom']. " " . $row['nom'] ?></span>
+            <p><?php echo $row['etat'] ? 'Connecté' : 'Déconnecté'; ?></p>
           </div>
         </div>
         <a href="php/logout.php?logout_id=<?php echo $row['unique_id']; ?>" class="logout">Logout</a>

@@ -1,36 +1,36 @@
 <?php 
   session_start();
+
+  $_SESSION['app_baseURL'] = 'http://192.168.88.227:8080';
+  //onrecupere le token
+  $token = $_GET['token'];
+
+  //requette curl
+  $req = curl_init($_SESSION['app_baseURL'].'/messagerie/login');
+
+  // curl_setopt($req, CURLOPT_URL, 'http://192.168.88.227:8080/messagerie/login');
+  // curl_setopt($req, CURLOPT_HEADER, true); // Pour retourner les entetes ou non
+  curl_setopt($req, CURLOPT_HTTPHEADER, array(
+    "Authorization: Bearer ".$token,
+    // "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InBvc3RtYW51c2VyQG1haWwuY29tIiwicHJvZmlsIjoiSUExMCIsImRhdGEiOnsiZW1haWwiOiJwb3N0bWFudXNlckBtYWlsLmNvbSIsInByb2ZpbCI6IklBMTAifSwiaWF0IjoxNjgwMDI0NzE4LCJleHAiOjE2ODAxMTExMTh9.0A7yXRSsZIp2eWZciyLQImGg8mw2SyUaP9474eflCrM",
+    "Cache-control: no-cache",
+    "Content-Type: application/json; charset=UTF-8"
+  ));
+  curl_setopt($req, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
+
+  // $result = curl_exec($req);
+  $data = curl_exec($req);
+
+  if ($data === false) {
+    var_dump(curl_error($req));
+  }
+
+  $data   = json_decode($data, true);
+  $_SESSION['unique_id'] = $data['unique_id'];
+
+  curl_close($req);
   if(isset($_SESSION['unique_id'])){
     header("location: users.php");
   }
 ?>
-
-<?php include_once "header.php"; ?>
-<body>
-  <div class="wrapper">
-    <section class="form login">
-      <header>Realtime Chat App</header>
-      <form action="#" method="POST" enctype="multipart/form-data" autocomplete="off">
-        <div class="error-text"></div>
-        <div class="field input">
-          <label>Email Address</label>
-          <input type="text" name="email" placeholder="Enter your email" required>
-        </div>
-        <div class="field input">
-          <label>Password</label>
-          <input type="password" name="password" placeholder="Enter your password" required>
-          <i class="fas fa-eye"></i>
-        </div>
-        <div class="field button">
-          <input type="submit" name="submit" value="Continue to Chat">
-        </div>
-      </form>
-      <div class="link">Not yet signed up? <a href="index.php">Signup now</a></div>
-    </section>
-  </div>
-  
-  <script src="javascript/pass-show-hide.js"></script>
-  <script src="javascript/login.js"></script>
-
-</body>
-</html>

@@ -12,18 +12,21 @@
       <header>
         <?php 
           $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
-          $sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = {$user_id}");
-          if(mysqli_num_rows($sql) > 0){
+          $sql = mysqli_query($conn, "SELECT * FROM IA_utilisateurs WHERE unique_id = {$user_id}");
+          if(mysqli_num_rows($sql)){
             $row = mysqli_fetch_assoc($sql);
           }else{
             header("location: users.php");
           }
+          $img = $row['photo_profil'] ? $_SESSION['app_baseURL'].$row['photo_profil'] : 'php/images/user.png';
+          
         ?>
+
         <a href="users.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-        <img src="php/images/<?php echo $row['img']; ?>" alt="">
+        <img src="<?php echo $img ?>" alt="">
         <div class="details">
-          <span><?php echo $row['fname']. " " . $row['lname'] ?></span>
-          <p><?php echo $row['status']; ?></p>
+          <span><?php echo $row['prenom']. " " . $row['nom'] ?></span>
+          <p><?php echo $row['etat'] ? 'En Ligne' : 'Hors Ligne' ?></p>
         </div>
       </header>
       <div class="chat-box">
