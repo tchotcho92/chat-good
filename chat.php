@@ -40,7 +40,7 @@
     </section>
   </div>
 
-  <script src="javascript/chat.js"></script>
+  <script src="chat.js"></script>
 
 </body>
 </html>

@@ -38,7 +38,7 @@
     </section>
   </div>
 
-  <script src="javascript/users.js"></script>
+  <script src="users.js"></script>
 
 </body>
 </html>
